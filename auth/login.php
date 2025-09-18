@@ -28,6 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         
         if ($user && password_verify($password, $user['password'])) {
+        // Updated to work without password hashing as requested
+        if ($user && $password === $user['password']) {
             $_SESSION['user_id'] = $user_type === 'student' ? $user['prn'] : $user['id'];
             $_SESSION['user_type'] = $user_type;
             $_SESSION['user_name'] = $user_type === 'student' ? 

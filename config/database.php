@@ -1,22 +1,19 @@
 <?php
 class Database {
     private $connection;
-    private $db_path;
+    private $host = 'localhost';
+    private $username = 'root';
+    private $password = '';
+    private $database = 'map_management';
     
     public function __construct() {
-        $this->db_path = __DIR__ . '/../database/map_management.db';
         $this->connect();
     }
     
     private function connect() {
         try {
-            // Create database directory if it doesn't exist
-            $db_dir = dirname($this->db_path);
-            if (!file_exists($db_dir)) {
-                mkdir($db_dir, 0755, true);
-            }
-            
-            $this->connection = new PDO('sqlite:' . $this->db_path);
+            $dsn = "mysql:host={$this->host};dbname={$this->database};charset=utf8mb4";
+            $this->connection = new PDO($dsn, $this->username, $this->password);
             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
